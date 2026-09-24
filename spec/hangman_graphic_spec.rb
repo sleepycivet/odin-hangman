@@ -1,4 +1,4 @@
-require_relative '../lib/hangman/game_display'
+require_relative '../lib/hangman/hangman_graphic'
 # This is really straightforward, so I don't think this needs to be tested.
 # Delete if this test is breaking.
 RSpec.describe 'HangmanGraphic module' do
