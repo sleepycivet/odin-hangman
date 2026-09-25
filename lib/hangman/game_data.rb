@@ -1,20 +1,20 @@
 class GameData
-  attr_accessor :name, :correct, :incorrect
+  attr_accessor :name, :guess, :incorrect
   attr_reader :answer
 
   private
   def initialize(answer)
     @answer = answer
-    @correct = []
+    @guess = []
     @incorrect = []
     set_correct
   end
 
   def set_correct
     (@answer.length).times do
-      correct.push('_')
+      guess.push('_')
     end
-    return @correct
+    return @guess
   end
 end
 
