@@ -10,7 +10,11 @@ module Text
     puts "If you would like to load a game, type 'load game'."
   end
 
-  def text_game_start(correct_arr)
+  def text_display_correct(correct_arr)
     puts "word: " + correct_arr.join(" ")
+  end
+
+  def text_display_incorrect(incorrect_arr)
+    puts "incorrect: " + incorrect_arr.join(", ")
   end
 end
