@@ -18,7 +18,7 @@ module Text
     puts "incorrect: " + incorrect_arr.join(", ")
   end
   
-  def text_prompt_guess_error
+  def text_prompt_guess
     puts 'Please type a letter from a to z.'
   end
 end
