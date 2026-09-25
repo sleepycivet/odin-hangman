@@ -1,12 +1,14 @@
-require_relative 'hangman/hangman_graphic'
+require_relative 'hangman/display'
 require_relative 'hangman/dictionary'
 require_relative 'hangman/text'
 require_relative 'hangman/game_data'
+require_relative 'hangman/prompt'
 
 class Game
-  include HangmanGraphic
+  include Display
   include Dictionary
   include Text
+  include Prompt
 
   def initialize
     @dictionary = create_dictionary
@@ -16,18 +18,11 @@ class Game
   def new_game
     random_index = rand(@dictionary.length - 1)
     @current_game_data = GameData.new(@dictionary[random_index])
-    show_results
-  end
-
-  def show_results
-    text_display_correct(current_game_data.correct)
-    display_graphic(current_game_data.incorrect.length)
-    if current_game_data.incorrect.length > 0
-      text_display_incorrect(current_game_data.incorrect)
-    end
+    display_results(@current_game_data)
+    p @current_game_data
+    prompt_guess
   end
 end
-
 
 # ✅ Read dictionary file
 # Compare guess to answer
