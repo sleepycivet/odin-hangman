@@ -22,6 +22,17 @@ class Game
     p @current_game_data
     prompt_guess
   end
+
+  def run_game
+  end
+
+  def has_won?(game_obj)
+    if game_obj.answer == game_obj.guess.join("")
+      return true
+    else
+      return false
+    end
+  end
 end
 
 # ✅ Read dictionary file
