@@ -3,7 +3,7 @@ module HangmanGraphic
     @graphic_data
   end
 
-  def display_graphic( num_incorrect)
+  def display_graphic(num_incorrect)
     case num_incorrect
     when 0
       @graphic_data = "----\n|\n|\n|\n======\n"
@@ -25,6 +25,5 @@ module HangmanGraphic
     end
 
     puts @graphic_data
-    return @graphic_data
   end
 end
