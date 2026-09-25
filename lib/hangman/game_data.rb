@@ -6,6 +6,7 @@ class GameData
   def initialize(answer)
     @answer = answer
     @correct = []
+    @incorrect = []
     set_correct
   end
 
