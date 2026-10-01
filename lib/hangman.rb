@@ -4,7 +4,7 @@ require_relative 'hangman/text'
 require_relative 'hangman/game_data'
 require_relative 'hangman/prompt'
 
-class Game
+class Game < GameData
   include Display
   include Dictionary
   include Text
