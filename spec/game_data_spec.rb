@@ -15,4 +15,29 @@ RSpec.describe GameData, 'class' do
       expect(test_incorrect).to be_an(Array)
     end
   end
+  describe 'writing save files' do
+    let(:test_object) {GameData.new('peanut')}
+    let(:object_name) {'sweet-soup'}
+    let(:test_object2) {GameData.new('apple')}
+    it 'create a file' do
+      test_object.guess = ['_','e','a','_','_','_']
+      test_object.incorrect = ['v','b']
+      test_object.name = object_name
+      test_object.save_game
+      expect(File.exist?("#{test_object.name}.json")).to be true
+    end
+    it 'write to a file' do
+      test_object.guess = ['_','e','a','_','_','_']
+      test_object.incorrect = ['v','b']
+      test_object.name = object_name
+      test_object2.guess = ['a','_','_','l','e']
+      test_object2.name = 'apple-pie'
+      test_object2.incorrect = ['t','n']
+      test_object2.load_game("#{object_name}")
+      expect(test_object2.answer).to eq('peanut')
+    end
+    it 'clean up created file' do
+      File.delete("#{object_name}.json")
+    end
+  end
 end

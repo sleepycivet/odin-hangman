@@ -1,33 +1,28 @@
 class GameData
   require 'json'
 
+  def digest_guess(letter)
+
+  end
+
   def save_game
-    Dir.chdir('saves')
-    puts "working directory = " + Dir.pwd
+    if Dir.pwd.include?('saves')
+    else
+      Dir.chdir('saves')
+    end
     file = File.new("#{@name}.json",'w')
-    puts File.exist?("#{@name}.json")
-    file.write(JSON.dump({
-      :name => @name,
-      :answer => @answer,
-      :guess => @guess,
-      :incorrect => @incorrect}
-    ))
+    file.write(to_json)
     file.close
   end
 
   def load_game(save_file_name)
-    puts "working directory = " + Dir.pwd
+    if Dir.pwd.include?('saves')
+    else
+      Dir.chdir('saves')
+    end
     file_name = save_file_name + ".json"
-    Dir.chdir('saves')
-    puts "working directory = " + Dir.pwd
-    puts "Does the file exist? #{File.exist?(file_name)}"
     if File.exist?(file_name)
-      data = JSON.load(File.open(file_name))
-      p data
-      @name = data['name']
-      @answer = data['answer']
-      @guess = data['guess']
-      @incorrect = data['incorrect']
+      from_json(File.open(file_name))
     else
       puts "Sorry, that save file doesn't exist."
     end
@@ -36,6 +31,25 @@ class GameData
   attr_accessor :name, :guess, :incorrect
 
   attr_reader :answer
+
+  protected
+
+  def to_json
+    return JSON.dump({
+      :name => @name,
+      :answer => @answer,
+      :guess => @guess,
+      :incorrect => @incorrect}
+    )
+  end
+
+  def from_json(string)
+    data = JSON.load(string)
+    @name = data['name']
+    @answer = data['answer']
+    @guess = data['guess']
+    @incorrect = data['incorrect']
+  end
 
   def initialize(answer)
     @name = 'unnamed'
