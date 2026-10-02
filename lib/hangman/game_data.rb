@@ -6,8 +6,7 @@ class GameData
   end
 
   def save_game
-    if Dir.pwd.include?('saves')
-    else
+    if Dir.pwd.include?('saves') == false
       Dir.chdir('saves')
     end
     file = File.new("#{@name}.json",'w')
@@ -16,8 +15,7 @@ class GameData
   end
 
   def load_game(save_file_name)
-    if Dir.pwd.include?('saves')
-    else
+    if Dir.pwd.include?('saves') == false
       Dir.chdir('saves')
     end
     file_name = save_file_name + ".json"
