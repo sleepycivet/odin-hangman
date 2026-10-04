@@ -40,4 +40,37 @@ RSpec.describe GameData, 'class' do
       File.delete("#{object_name}.json")
     end
   end
+  describe 'digest_guess' do
+    let(:test_object) {GameData.new('apple')}
+    it 'already guessed the (correct) letter' do
+      test_object.guess = ['a','_','_','l','e']
+      test_object.incorrect = ['b','v','r','k']
+      expected_output = "You already guessed this letter!\n"
+      input = "a"
+      expect{test_object.digest_guess(input)}.to output(expected_output).to_stdout
+    end
+    it 'already guessed the (incorrect) letter' do
+      test_object.guess = ['a','_','_','l','e']
+      test_object.incorrect = ['b','v','r','k']
+      expected_output = "You already guessed this letter!\n"
+      input = "b"
+      expect{test_object.digest_guess(input)}.to output(expected_output).to_stdout
+    end
+    it 'guess correct letter (new)' do
+      test_object.guess = ['a','_','_','_','e']
+      test_object.incorrect = ['b','v','r','k']
+      input = "l"
+      test_object.digest_guess(input)
+      expect(test_object.guess).to eq(['a','_','_','l','e'])
+      expect(test_object.incorrect).to eq(['b','v','r','k'])
+    end
+    it 'guess incorrect letter (new)' do
+      test_object.guess = ['a','_','_','_','e']
+      test_object.incorrect = ['b','v','r','k']
+      input = "z"
+      test_object.digest_guess(input)
+      expected_output = ['b','v','r','k','z']
+      expect(test_object.incorrect).to eq(['b','v','r','k','z'])
+    end
+  end
 end

@@ -2,7 +2,18 @@ class GameData
   require 'json'
 
   def digest_guess(letter)
-
+    answer_array = answer.split('')
+    if @incorrect.include?(letter) || @guess.include?(letter)
+      puts "You already guessed this letter!"
+    elsif answer_array.include?(letter)
+      answer_array.each_with_index do |element, index|
+        if element == letter
+          @guess[index] = letter
+        end
+      end
+    else
+      @incorrect.push(letter)
+    end
   end
 
   def save_game
@@ -27,7 +38,6 @@ class GameData
   end
   
   attr_accessor :name, :guess, :incorrect
-
   attr_reader :answer
 
   protected
@@ -37,8 +47,7 @@ class GameData
       :name => @name,
       :answer => @answer,
       :guess => @guess,
-      :incorrect => @incorrect}
-    )
+      :incorrect => @incorrect})
   end
 
   def from_json(string)
@@ -67,7 +76,7 @@ end
 
 # Game = {
 #   save_name: "Milk Tea's Save"
-#   correct: [a,_,_,l,e],
+#   guess: [a,_,_,l,e],
 #   incorrect: [b,r,v,k],
 #   answer: "apple"
 # }
