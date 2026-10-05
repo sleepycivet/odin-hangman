@@ -21,7 +21,6 @@ RSpec.describe GameData, 'class' do
       subject.digest_guess('e')
       subject.digest_guess('t')
       subject.digest_guess('n')
-      # subject.set_name('apple-pie')
       expected_output = {
         :answer => "apple",
         :guess => ['a','_','_','l','e'],
@@ -32,13 +31,12 @@ RSpec.describe GameData, 'class' do
   end
   describe 'writing save files' do
     subject{GameData.new('peanut')}
-    let(:object_name) {"sweet's soup"}
+    let(:object_name) {"mom's favorite soup"}
     before{
       subject.digest_guess('e')
       subject.digest_guess('a')
       subject.digest_guess('v')
       subject.digest_guess('b')
-      # subject.set_name("#{object_name}")
     }
     it 'create a file' do
       allow_any_instance_of(Kernel).to receive(:gets).and_return("#{object_name}")
@@ -52,7 +50,6 @@ RSpec.describe GameData, 'class' do
       test_object2.digest_guess('e')
       test_object2.digest_guess('t')
       test_object2.digest_guess('n')
-      # test_object2.set_name('apple-pie')
       allow_any_instance_of(Kernel).to receive(:gets).and_return("#{object_name}")
       test_object2.load_game
       expect(test_object2.objectize[:answer]).to eq('peanut')

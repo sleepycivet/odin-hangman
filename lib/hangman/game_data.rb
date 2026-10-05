@@ -36,6 +36,8 @@ class GameData
   end
 
   def load_game
+    puts 'Please pick a save file to load:'
+    show_saved_games
     file_name = save_file_name('load') + ".json"
     if File.exist?(file_name)
       from_json(File.open(file_name))

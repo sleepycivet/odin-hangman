@@ -7,10 +7,11 @@ module Display
   end
 
   def display_results(game_obj)
-    text_display_correct(game_obj.correct)
-    display_graphic(game_obj.incorrect.length)
-    if game_obj.incorrect.length > 0
-      text_display_incorrect(game_obj.incorrect)
+    text_display_correct(game_obj[:guess])
+    display_graphic(game_obj[:incorrect].length)
+
+    if game_obj[:incorrect].length > 0
+      text_display_incorrect(game_obj[:incorrect])
     end
   end
 
@@ -32,7 +33,7 @@ module Display
       "----\n|  O\n| /|\\\n| / \n======\n"
     else
       @graphic_data = 
-      "----\n|  O < Game Over ;_;\n| /|\\\n| / \\\n======\n"
+      "----\n|  O < x_x\n| /|\\\n| / \\\n======\n"
     end
 
     puts @graphic_data
