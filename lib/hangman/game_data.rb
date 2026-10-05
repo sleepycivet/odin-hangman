@@ -1,6 +1,19 @@
 class GameData
   require 'json'
 
+  def set_name(string)
+    @name = string
+  end
+
+  def objectize
+    return {
+      :name => @name,
+      :answer => @answer,
+      :guess => @guess,
+      :incorrect => @incorrect
+    }
+  end
+
   def digest_guess(letter)
     answer_array = answer.split('')
     if @incorrect.include?(letter) || @guess.include?(letter)
@@ -37,17 +50,13 @@ class GameData
     end
   end
   
+  protected
+
   attr_accessor :name, :guess, :incorrect
   attr_reader :answer
 
-  protected
-
   def to_json
-    return JSON.dump({
-      :name => @name,
-      :answer => @answer,
-      :guess => @guess,
-      :incorrect => @incorrect})
+    return JSON.dump(objectize)
   end
 
   def from_json(string)
