@@ -7,7 +7,7 @@ RSpec.describe GameData, 'class' do
         :answer => 'apple',
         :guess => ['_','_','_','_','_'],
         :incorrect => [],
-        :name => 'unnamed'
+        :name => nil
       }
       expect(subject.objectize).to eq(expected_output)
     end
@@ -21,26 +21,27 @@ RSpec.describe GameData, 'class' do
       subject.digest_guess('e')
       subject.digest_guess('t')
       subject.digest_guess('n')
-      subject.set_name('apple-pie')
+      # subject.set_name('apple-pie')
       expected_output = {
         :answer => "apple",
         :guess => ['a','_','_','l','e'],
         :incorrect => ['t','n'],
-        :name => "apple-pie"}
+        :name => nil}
       expect(subject.objectize).to eq(expected_output)
     end
   end
   describe 'writing save files' do
     subject{GameData.new('peanut')}
+    let(:object_name) {"sweet's soup"}
     before{
       subject.digest_guess('e')
       subject.digest_guess('a')
       subject.digest_guess('v')
       subject.digest_guess('b')
-      subject.set_name("#{object_name}")
+      # subject.set_name("#{object_name}")
     }
-    let(:object_name) {'sweet-soup'}
     it 'create a file' do
+      allow_any_instance_of(Kernel).to receive(:gets).and_return("#{object_name}")
       subject.save_game
       expect(File.exist?("#{object_name}.json")).to be true
     end
@@ -51,8 +52,9 @@ RSpec.describe GameData, 'class' do
       test_object2.digest_guess('e')
       test_object2.digest_guess('t')
       test_object2.digest_guess('n')
-      test_object2.set_name('apple-pie')
-      test_object2.load_game("#{object_name}")
+      # test_object2.set_name('apple-pie')
+      allow_any_instance_of(Kernel).to receive(:gets).and_return("#{object_name}")
+      test_object2.load_game
       expect(test_object2.objectize[:answer]).to eq('peanut')
     end
     it 'clean up created file' do

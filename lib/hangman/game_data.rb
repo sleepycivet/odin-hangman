@@ -1,10 +1,6 @@
 class GameData
   require 'json'
 
-  def set_name(string)
-    @name = string
-  end
-
   def objectize
     return {
       :name => @name,
@@ -15,10 +11,10 @@ class GameData
   end
 
   def digest_guess(letter)
-    answer_array = answer.split('')
     if @incorrect.include?(letter) || @guess.include?(letter)
       puts "You already guessed this letter!"
-    elsif answer_array.include?(letter)
+    elsif answer.split('').include?(letter)
+      answer_array = answer.split('')
       answer_array.each_with_index do |element, index|
         if element == letter
           @guess[index] = letter
@@ -30,19 +26,17 @@ class GameData
   end
 
   def save_game
-    if Dir.pwd.include?('saves') == false
-      Dir.chdir('saves')
+    if @name == nil
+      puts "Please pick a name for your save file:"
+      @name = save_file_name('save')
     end
     file = File.new("#{@name}.json",'w')
     file.write(to_json)
     file.close
   end
 
-  def load_game(save_file_name)
-    if Dir.pwd.include?('saves') == false
-      Dir.chdir('saves')
-    end
-    file_name = save_file_name + ".json"
+  def load_game
+    file_name = save_file_name('load') + ".json"
     if File.exist?(file_name)
       from_json(File.open(file_name))
     else
@@ -68,11 +62,14 @@ class GameData
   end
 
   def initialize(answer)
-    @name = 'unnamed'
+    @name = nil
     @answer = answer
     @guess = []
     @incorrect = []
     set_correct
+    if Dir.pwd.include?('saves') == false
+      Dir.chdir('saves')
+    end
   end
 
   def set_correct
@@ -81,6 +78,38 @@ class GameData
     end
     return @guess
   end
+
+    def show_saved_games
+    puts "Saved games:"
+    Dir.children(Dir.pwd).each do |element|
+      puts"- #{File.basename(element, '.*')}"
+    end
+  end
+
+  def save_file_name(string)
+    save_name = nil
+    while save_name == nil
+      input = gets.downcase.to_s.chomp
+
+      if string == 'save'
+        if File.exist?("#{input}.json") == false
+          save_name = input
+        else
+          puts "That file already exists. Please try another one."
+          show_saved_games
+        end
+      elsif string == 'load'
+        if File.exist?("#{input}.json") == true
+          save_name = input
+        else
+          puts "There is no such save file. Please choose one from the following:"
+          show_saved_games
+        end
+      end
+    end
+    return save_name
+  end
+
 end
 
 # Game = {
